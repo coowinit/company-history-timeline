@@ -1,16 +1,33 @@
-# 企业发展历程 Timeline
+# 企业发展历程时间轴
 
-一个使用 HTML、CSS、JavaScript 和 Swiper 构建的响应式企业发展历程时间轴页面。
+一个使用 HTML、CSS、JavaScript 和 Swiper 构建的响应式企业发展历程组件展示库，提供两种可独立预览的时间轴布局。
 
-## 功能特点
+## 在线预览
 
-- 桌面端同时显示 4 条发展历程，手机端同时显示 1 条。
-- 横向时间轴、圆形节点、日期、标题和描述。
+打开仓库首页的 `index.html`，选择想查看的样式：
+
+| 效果 | 说明 | 预览入口 |
+|---|---|---|
+| 经典时间轴 | 日期、节点、标题和描述沿时间轴排列 | [查看经典时间轴](demos/timeline/) |
+| 卡片时间轴 | 卡片位于时间轴上方，日期和分类位于下方 | [查看卡片时间轴](demos/cards/) |
+
+## 效果特点
+
+### 经典时间轴
+
+- 电脑端每屏显示 4 条历程，手机端每屏显示 1 条。
+- 日期、时间轴节点、标题和描述依次排列。
 - 支持分页圆点点击、触摸滑动、键盘方向键和循环轮播。
 - 隐藏轮播可视区域外的相邻滑块。
-- 页面样式、页面交互和 Swiper 第三方资源分别存放，方便维护。
-- 历程数据集中维护，新增或删除记录时会自动生成对应条目和分页。
-- Swiper CSS 和 JavaScript 已放入项目本地，不依赖 CDN 加载这两个文件。
+
+### 卡片时间轴
+
+- 电脑端每屏显示 4 张卡片，手机端每屏显示 1 张卡片。
+- 白色圆角卡片带底部三角指示，时间轴节点位于卡片下方。
+- 日期和分类显示在时间轴下方。
+- 卡片底部位置保持稳定；描述较长时，卡片向上扩展，避免向下挤压时间轴。
+- 已缩小手机端底部分页圆点与上方内容的间距。
+- 支持分页圆点点击、触摸滑动、键盘方向键和循环轮播。
 
 ## 项目结构
 
@@ -18,72 +35,69 @@
 company-history-timeline/
 ├── index.html
 ├── README.md
-└── assets/
-    ├── css/
-    │   ├── history-timeline.css
-    │   └── swiper-bundle.min.css
-    └── js/
-        ├── history-timeline.js
-        └── swiper-bundle.min.js
+├── assets/
+│   ├── css/
+│   │   ├── history-timeline.css
+│   │   ├── history-cards.css
+│   │   └── swiper-bundle.min.css
+│   └── js/
+│       ├── history-timeline.js
+│       ├── history-cards.js
+│       └── swiper-bundle.min.js
+└── demos/
+    ├── timeline/
+    │   └── index.html
+    └── cards/
+        └── index.html
 ```
+
+两个示例页面共用根目录的 Swiper 文件。每个示例的布局样式和数据逻辑分别维护，减少重复资源，方便后续扩展。
 
 ## 本地预览
 
 1. 下载或克隆仓库。
-2. 保持 `index.html` 与 `assets/` 目录的相对位置不变。
-3. 使用 Chrome、Edge 或其他现代浏览器打开 `index.html`。
+2. 保持 `index.html`、`assets/` 和 `demos/` 的相对位置不变。
+3. 使用 Chrome、Edge 等现代浏览器打开根目录的 `index.html`。
+4. 点击首页的两张预览卡片，分别查看经典时间轴和卡片时间轴。
 
-页面自定义样式和脚本、Swiper 样式和脚本都从本地文件加载。
+项目使用相对路径加载本地 CSS、JavaScript 和 Swiper 文件，不需要依赖 CDN 加载轮播库。
 
-## 修改发展历程数据
+## 修改经典时间轴内容
 
-打开 `assets/js/history-timeline.js`，搜索：
+编辑 `assets/js/history-timeline.js`，找到 `historyData` 数组。每条记录包含：
 
-```js
-const historyData = [
-```
+- `date`：日期
+- `title`：标题
+- `description`：描述
 
-每条数据包含三个字段：
+数组顺序就是展示顺序，不会自动按日期排序。
 
-```js
-{
-  date: "2024年3月15日",
-  title: "企业发展新阶段",
-  description: "在这里填写对应的历程描述。"
-}
-```
+## 修改卡片时间轴内容
 
-- `date`：显示日期。
-- `title`：历程标题。
-- `description`：历程说明。
+编辑 `assets/js/history-cards.js`，找到 `historyData` 数组。每条记录包含：
 
-复制一个对象即可增加记录，删除一个对象即可移除记录。页面会根据数组自动生成时间轴条目。当前顺序由数组顺序决定，不会自动按日期排序。
+- `title`：卡片标题
+- `description`：卡片说明
+- `date`：日期
+- `category`：时间轴下方的分类
 
-## 修改样式
+复制一个对象即可新增记录，删除一个对象即可移除记录。显示顺序遵循数组顺序。
 
-编辑 `assets/css/history-timeline.css`：
+## 修改样式与轮播
 
-- 颜色变量位于文件开头的 `:root`。
-- 时间轴线、日期、节点和内容样式都在该文件中。
-- `@media (max-width: 767px)` 用于手机端样式。
+- 经典时间轴样式：`assets/css/history-timeline.css`
+- 卡片时间轴样式：`assets/css/history-cards.css`
+- 两个示例的数据和 Swiper 初始化：分别位于对应的 `assets/js/` 文件中
+- 当前响应式断点为 `768px`：桌面端每屏 4 条，手机端每屏 1 条
 
-## 修改轮播设置
+调整卡片定位、时间轴线位置或轮播断点后，请同时检查桌面端、手机端和较长描述的显示效果。
 
-Swiper 初始化代码位于 `assets/js/history-timeline.js` 底部：
+## 第三方资源与许可证
 
-- 默认手机端 `slidesPerView: 1`。
-- 屏幕宽度达到 `768px` 时，`slidesPerView` 切换为 `4`。
-- `loop: true` 启用循环轮播。
-- `.history-swiper { overflow: hidden; }` 隐藏可视区域外的相邻滑块。
+`assets/css/swiper-bundle.min.css` 和 `assets/js/swiper-bundle.min.js` 是 Swiper 11.2.10 的发行文件，采用 MIT License。请保留发行文件中的原有版权与许可证声明。
 
-如需调整断点或每屏显示数量，请修改 Swiper 初始化配置和对应的 CSS 媒体查询，并一起测试电脑端和手机端。
-
-## 资源说明与许可证
-
-`assets/css/swiper-bundle.min.css` 和 `assets/js/swiper-bundle.min.js` 是 Swiper **11.2.10** 的压缩发行文件。其文件头标注发布日期为 2025 年 6 月 28 日，并采用 **MIT License**。
-
-- Swiper 官网：https://swiperjs.com/
-- Swiper 仓库：https://github.com/nolimits4web/swiper
+- 官网：https://swiperjs.com/
+- GitHub：https://github.com/nolimits4web/swiper
 - MIT License：https://opensource.org/license/mit/
 
-使用或再分发 Swiper 文件时，请保留发行文件中的版权与许可证声明。项目自定义的 HTML、CSS 和 JavaScript 可根据实际需要继续修改。
+项目自定义的 HTML、CSS 和 JavaScript 可根据实际需要继续修改。
