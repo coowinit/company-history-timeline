@@ -3,28 +3,76 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="响应式企业发展历程时间轴示例页面">
-  <title>企业发展历程 | Responsive Timeline</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-  <link rel="stylesheet" href="assets/css/history-timeline.css">
+  <meta name="description" content="企业发展历程时间轴组件展示库，包含经典时间轴和卡片时间轴两种响应式布局。">
+  <title>企业发展历程时间轴 | 组件展示</title>
+  <style>
+    :root { color-scheme: light; --ink: #252875; --muted: #6876ad; --line: #b9d7eb; --surface: rgba(255,255,255,.88); --shadow: 0 14px 40px rgba(37,40,117,.09); }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei","PingFang SC",Arial,sans-serif; color: var(--ink); background: radial-gradient(ellipse at 12% 4%,rgba(246,231,244,.9),transparent 35%),radial-gradient(ellipse at 90% 7%,rgba(222,230,252,.95),transparent 38%),linear-gradient(135deg,#f8f5fa,#f1f6fd); }
+    .page { width: min(1080px,calc(100% - 40px)); margin: 0 auto; padding: 76px 0 64px; }
+    .eyebrow { margin: 0 0 14px; color: #6c7bb5; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(30px,5vw,46px); line-height: 1.2; letter-spacing: -.035em; }
+    .intro { max-width: 660px; margin: 18px 0 0; color: #6876ad; font-size: 17px; line-height: 1.8; }
+    .demo-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; margin-top: 42px; }
+    .demo-card { display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.9); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); text-decoration: none; color: inherit; transition: transform .2s ease,box-shadow .2s ease; }
+    .demo-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(37,40,117,.13); }
+    .demo-card:focus-visible { outline: 3px solid #4385ff; outline-offset: 4px; }
+    .preview { display: flex; align-items: center; justify-content: center; height: 220px; padding: 24px; overflow: hidden; background: linear-gradient(125deg,rgba(247,235,246,.8),rgba(229,238,255,.85)); }
+    .mini-timeline { position: relative; width: 100%; display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; padding-top: 14px; }
+    .mini-timeline::before { content: ""; position: absolute; top: 90px; left: 0; right: 0; height: 2px; background: var(--line); }
+    .mini-item { position: relative; text-align: center; }
+    .mini-item .date { height: 34px; color: #6876ad; font-size: 10px; }
+    .mini-item .node { position: relative; z-index: 1; width: 15px; height: 15px; margin: 0 auto 14px; border: 4px solid var(--line); border-radius: 50%; background: #fff; }
+    .mini-item .heading { color: var(--ink); font-size: 12px; font-weight: 700; }
+    .mini-item .copy { margin-top: 7px; color: #6876ad; font-size: 10px; line-height: 1.5; }
+    .mini-cards { width: 100%; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; align-items: start; }
+    .mini-card { position: relative; min-height: 112px; padding: 16px 8px 12px; border-radius: 8px; background: #fff; box-shadow: 0 7px 18px rgba(44,54,110,.1); text-align: center; }
+    .mini-card:nth-child(2) { margin-top: -13px; }
+    .mini-card strong { display: block; font-size: 11px; line-height: 1.5; }
+    .mini-card span { display: block; margin-top: 8px; color: #6876ad; font-size: 9px; line-height: 1.5; }
+    .mini-card::after { content: ""; position: absolute; left: 50%; bottom: -7px; transform: translateX(-50%); border-top: 8px solid #fff; border-left: 8px solid transparent; border-right: 8px solid transparent; }
+    .card-body { padding: 25px 26px 27px; }
+    .card-kicker { margin: 0 0 8px; color: #6c7bb5; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+    .card-body h2 { margin: 0; font-size: 22px; line-height: 1.4; }
+    .card-body p { margin: 10px 0 18px; color: #6876ad; font-size: 14px; line-height: 1.75; }
+    .card-link { display: inline-flex; align-items: center; gap: 8px; color: #315fc9; font-size: 14px; font-weight: 700; }
+    .card-link span { transition: transform .2s ease; }
+    .demo-card:hover .card-link span { transform: translateX(4px); }
+    footer { margin-top: 38px; color: #7b86ae; font-size: 12px; line-height: 1.7; }
+    @media (max-width:680px) { .page { width: min(calc(100% - 28px),480px); padding-top: 46px; } .demo-grid { grid-template-columns: 1fr; gap: 18px; margin-top: 30px; } .preview { height: 190px; padding: 22px 16px; } .card-body { padding: 22px; } .intro { font-size: 15px; } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { transition-duration: .01ms !important; } }
+  </style>
 </head>
 <body>
-  <main>
-    <section class="history-section" aria-label="企业发展历程">
-      <div class="history-wrap">
-        <div class="swiper history-swiper" aria-label="企业发展历程轮播">
-          <div class="swiper-wrapper" id="history-list">
-            <!-- History items are generated from the data below. -->
+  <main class="page">
+    <header>
+      <p class="eyebrow">Responsive UI Components</p>
+      <h1>企业发展历程时间轴</h1>
+      <p class="intro">两个可直接预览的响应式时间轴布局。选择适合网站视觉风格的版本，查看桌面端与手机端效果，并根据项目需要修改内容和样式。</p>
+    </header>
+    <section class="demo-grid" aria-label="时间轴效果预览">
+      <a class="demo-card" href="demos/timeline/" aria-label="预览经典时间轴">
+        <div class="preview" aria-hidden="true">
+          <div class="mini-timeline">
+            <div class="mini-item"><div class="date">2023.04</div><div class="node"></div><div class="heading">企业起步</div><div class="copy">开启新的发展阶段</div></div>
+            <div class="mini-item"><div class="date">2023.06</div><div class="node"></div><div class="heading">持续成长</div><div class="copy">不断完善产品体验</div></div>
+            <div class="mini-item"><div class="date">2023.08</div><div class="node"></div><div class="heading">产品研发</div><div class="copy">探索更多可能</div></div>
           </div>
         </div>
-
-        <div class="history-pagination" aria-label="选择发展历程"></div>
-      </div>
+        <div class="card-body"><p class="card-kicker">STYLE 01</p><h2>经典时间轴</h2><p>日期、节点、标题与描述依次排列，视觉简洁，适合企业介绍和品牌发展历程页面。</p><span class="card-link">查看效果 <span aria-hidden="true">→</span></span></div>
+      </a>
+      <a class="demo-card" href="demos/cards/" aria-label="预览卡片时间轴">
+        <div class="preview" aria-hidden="true">
+          <div class="mini-cards">
+            <div class="mini-card"><strong>企业起步</strong><span>记录重要发展节点与里程碑</span></div>
+            <div class="mini-card"><strong>持续成长</strong><span>卡片根据文字内容向上扩展</span></div>
+            <div class="mini-card"><strong>产品研发</strong><span>展示日期与分类信息</span></div>
+          </div>
+        </div>
+        <div class="card-body"><p class="card-kicker">STYLE 02</p><h2>卡片时间轴</h2><p>信息卡片位于时间轴上方，日期和分类位于下方；长文本卡片向上扩展，并针对手机端优化分页间距。</p><span class="card-link">查看效果 <span aria-hidden="true">→</span></span></div>
+      </a>
     </section>
+    <footer>使用 HTML、CSS、JavaScript 与 Swiper 构建。两个示例可独立预览，项目资源统一维护在 assets 目录中。</footer>
   </main>
-
-  <script src="assets/js/swiper-bundle.min.js"></script>
-  <script src="assets/js/history-timeline.js"></script>
 </body>
 </html>
