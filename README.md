@@ -4,12 +4,12 @@
 
 ## 在线预览
 
-打开仓库首页的 `index.html`，选择想查看的样式：
+打开[组件展示首页](https://coowinit.github.io/company-history-timeline/)，选择想查看的样式：
 
 | 效果 | 说明 | 预览入口 |
 |---|---|---|
-| 经典时间轴 | 日期、节点、标题和描述沿时间轴排列 | [查看经典时间轴](demos/timeline/) |
-| 卡片时间轴 | 卡片位于时间轴上方，日期和分类位于下方 | [查看卡片时间轴](demos/cards/) |
+| 经典时间轴 | 日期、节点、标题和描述沿时间轴排列 | [查看经典时间轴](https://coowinit.github.io/company-history-timeline/demos/timeline/) |
+| 卡片时间轴 | 卡片位于时间轴上方，日期和分类位于下方 | [查看卡片时间轴](https://coowinit.github.io/company-history-timeline/demos/cards/) |
 
 ## 效果特点
 
